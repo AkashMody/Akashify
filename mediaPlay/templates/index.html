@@ -1,0 +1,266 @@
+{%  extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Akashify
+{% endblock title %}
+    
+
+{% block body %}
+    <div class="container-fluid bg-dark text-warning">
+        <div class="row">
+            <div class="col-md-3 fixed">
+
+                <div class="row" id = "imagecontainer">
+                    <h4 class="text-warning bg-dark bg-gradient ms-4" style = "width: 300px">Hello {{active_user}}</h4>
+                    <a href="editProfile/{{listener.lid}}"><img id = "mylogo" src="{{listener.profile_pic.url}}" alt="">
+                    <div id="middle">
+                        <div id="profile_text">Edit Profile</div>
+                    </div>
+                    </a>
+                </div>
+                
+                <div class="card bg-warning bg-gradient text-warning ms-1" style = "--bs-bg-opacity: .2;">
+                    <div class="card-header">
+                        <h5 class="card-title">Create your own Playlist</h5>
+                    </div>
+                    <div class="card-body">
+                      
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" aria-label="Playlist" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-dark" type="button" id="button-addon2"><a href = ""><i class="bi bi-plus text-warning"></i></a></button>
+                      </div>
+                      <a href="/playlist" class="btn btn-dark">Your Playlists</a>
+                      {% if "PREMIUM" in listener.member %}
+                        <a href="/upload_your_own"><button class="btn btn-outline-primary">Upload your Music!</button></a>
+                      {% endif %}
+                    </div>
+                  </div><br>
+                  <h4 class="text-warning bg-dark bg-gradient ms-4" style = "width: 300px">You've got good taste</h4>
+                  {% if liked_songs %}
+                  <ul>
+                    {% for track in liked_songs %}
+                    <div class="card m-3 bg-black" style="max-width: 400px; height:50px">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{track.img.url}}" style = "height:50px; width: 50px;" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <button class="btn" id = "{{track.track_id}}" type="button" style="font-size: xx-large; position: absolute; bottom: 5px; left: 50px; margin:auto; height:50px; width: 50px; z-index: 1;" onclick = "playNOW(this.id)"><i class="bi bi-play-circle-fill text-warning"></i></button>
+
+                            <div class="col-md-8 text-warning">
+                                <div class="card-body">
+                                    <a href="/lyrics/{{track.track_id}}" class = "text-warning songlink">
+                                    <p class="card-title playText">{{track.title}} ({{track.artist}})</p>
+                                    </a>
+                                </div>   
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="cover">
+                        <h4>Trending</h4>
+                        <button class="left" onclick="leftScroll()">
+                            <i class="bi bi-chevron-double-left text-warning-emphasis"></i>
+                        </button>
+                        <div class="scroll-images">
+                            {%for song in songs%}    
+                            <div class="col-md-3">
+                                <div class="card bg-dark bg-gradient text-warning child" style="width: 14rem;">
+                                    <img src="{{song.img.url}}" class="card-img-top" alt="{{song.title}}" >
+                                    <div class="card-body">
+                                        <a href="/lyrics/{{song.track_id}}" class = "text-warning songlink">
+                                        <h5 class="card-title">{{song.title}}</h5>
+                                        <p class="card-text">{{song.artist}}</p></a>
+                                        <!-- <p class="card-text">Rs. {{song.lyrics}}/-</p> -->
+                                        <br><br><br>
+                                        <div>
+                                            <button class="btn" id = "{{song.track_id}}" type="button" style="font-size: xx-large; position: absolute; bottom:0; right: 0; margin:auto" onclick = "playNOW(this.id)"><i class="bi bi-play-circle-fill text-warning"></i></button>
+                                            <button class="btn" type="button" style="font-size: xx-large; position: absolute; bottom:0px; left: 0;">
+                                                {% if song in liked_songs %}
+                                                    <i class="bi bi-heart-fill text-warning heart-toggle" id = "/add_to_liked_songs/{{song.track_id}}" onclick = "playLIST(this, this.id)"></i>
+                                                {% else %}
+                                                    <i class="bi bi-heart text-warning heart-toggle" id = "/add_to_liked_songs/{{song.track_id}}" onclick = "playLIST(this, this.id)"></i>
+                                                {% endif %}
+                                            </button>
+                                        </div>
+                                        <!-- <audio src="{{song.track.url}}" style = "width: 100%;" controls class = "text-warning"></audio> -->
+                                    </div>
+                                </div>
+                            </div>
+                            {%empty%}
+                            <h2>Tracks not available</h2>
+                            {%endfor%}
+                        </div>
+                        <button class="right" onclick="rightScroll()">
+                            <i class="bi bi-chevron-double-right text-warning-emphasis"></i>
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <div class="row pt-2">
+                    <div class="cover">
+                        <h4>Rock</h4>
+                        <button class="left" onclick="leftScroll()">
+                            <i class="bi bi-chevron-double-left text-warning-emphasis"></i>
+                        </button>
+                        <div class="scroll-images">
+                            {%for song in rocklist%}    
+                            <div class="col-md-3">
+                                <div class="card bg-dark bg-gradient text-warning child" style="width: 14rem;">
+                                    <img src="{{song.img.url}}" class="card-img-top" alt="{{song.title}}" >
+                                    <div class="card-body">
+                                        <a href="/lyrics/{{song.track_id}}" class = "text-warning songlink">
+                                        <h5 class="card-title">{{song.title}}</h5>
+                                        <p class="card-text">{{song.artist}}</p></a>
+                                        <!-- <p class="card-text">Rs. {{song.lyrics}}/-</p> -->
+                                        <br><br><br>
+                                        <div>
+                                            <button class="btn" id = "{{song.track_id}}" type="button" style="font-size: xx-large; position: absolute; bottom:0; right: 0; margin:auto" onclick = "playNOW(this.id)"><i class="bi bi-play-circle-fill text-warning"></i></button>
+                                            <button class="btn" type="button" style="font-size: xx-large; position: absolute; bottom:0px; left: 0;">
+                                                {% if song in liked_songs %}
+                                                    <i class="bi bi-heart-fill text-warning heart-toggle" id = "/add_to_liked_songs/{{song.track_id}}" onclick = "playLIST(this, this.id)"></i>
+                                                {% else %}
+                                                    <i class="bi bi-heart text-warning heart-toggle" id = "/add_to_liked_songs/{{song.track_id}}" onclick = "playLIST(this, this.id)"></i>
+                                                {% endif %}
+                                            </button>
+                                        </div>
+                                        <!-- <audio src="{{song.track.url}}" style = "width: 100%;" controls class = "text-warning"></audio> -->
+                                    </div>
+                                </div>
+                            </div>
+                            {%empty%}
+                            <h2>Tracks not available</h2>
+                            {%endfor%}
+                        </div>
+                        <button class="right" onclick="rightScroll()">
+                            <i class="bi bi-chevron-double-right text-warning-emphasis"></i>
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <div class="row pt-2">
+                    <div class="cover">
+                        <h4>Pop</h4>
+                        <button class="left" onclick="leftScroll()">
+                            <i class="bi bi-chevron-double-left text-warning-emphasis"></i>
+                        </button>
+                        <div class="scroll-images">
+                            {%for song in poplist%}    
+                            <div class="col-md-3">
+                                <div class="card bg-dark bg-gradient text-warning child" style="width: 14rem;">
+                                    <img src="{{song.img.url}}" class="card-img-top" alt="{{song.title}}" >
+                                    <div class="card-body">
+                                        <a href="/lyrics/{{song.track_id}}" class = "text-warning songlink">
+                                        <h5 class="card-title">{{song.title}}</h5>
+                                        <p class="card-text">{{song.artist}}</p></a>
+                                        <!-- <p class="card-text">Rs. {{song.lyrics}}/-</p> -->
+                                        <br><br><br>
+                                        <div>
+                                            <button class="btn" id = "{{song.track_id}}" type="button" style="font-size: xx-large; position: absolute; bottom:0; right: 0; margin:auto" onclick = "playNOW(this.id)"><i class="bi bi-play-circle-fill text-warning"></i></button>
+                                            <button class="btn" type="button" style="font-size: xx-large; position: absolute; bottom:0px; left: 0;">
+                                                {% if song in liked_songs %}
+                                                    <i class="bi bi-heart-fill text-warning heart-toggle" id = "/add_to_liked_songs/{{song.track_id}}" onclick = "playLIST(this, this.id)"></i>
+                                                {% else %}
+                                                    <i class="bi bi-heart text-warning heart-toggle" id = "/add_to_liked_songs/{{song.track_id}}" onclick = "playLIST(this, this.id)"></i>
+                                                {% endif %}
+                                            </button>
+                                        </div>
+                                        <!-- <audio src="{{song.track.url}}" style = "width: 100%;" controls class = "text-warning"></audio> -->
+                                    </div>
+                                </div>
+                            </div>
+                            {%empty%}
+                            <h2>Tracks not available</h2>
+                            {%endfor%}
+                        </div>
+                        <button class="right" onclick="rightScroll()">
+                            <i class="bi bi-chevron-double-right text-warning-emphasis"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class = "sticky-bottom bg-black bg-gradient">
+            <div class="row">
+                <div class="col-md-3 text-warning">
+                    <div class="card m-3 bg-dark bg-gradient" style="max-width: 540px;">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img id = "playnowIMG" src="{% static 'img/record.png' %}" class="img-fluid rounded-start" alt="...">
+                          </div>
+                          <div class="col-md-8 text-warning">
+                            <div class="card-body">
+                              <h5 id = "playnowTITLE" class="card-title playText">Title</h5>
+                              <p id = "playnowARTIST" class="card-text">Artist</p>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <audio controls autoplay id = "audio" class = "text-warning" style = "width: 900px; margin: 35px;">
+                        <source id = "playnowTRACK" src="" type="audio/mp3" />
+                    </audio>
+                </div>
+            </div>    
+        </footer>
+    </div>
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src= "{% static 'js/scroll.js' %}"></script>
+    <script src= "{% static 'js/play.js' %}"></script>
+
+    <script>
+        function playLIST(heart, addToPlaylist){
+            
+
+            // var audio = document.getElementById('audio');
+            // //audio.pause();
+            // var playImg = document.getElementById('playnowIMG');
+            // var playTitle = document.getElementById('playnowTITLE');
+            // var playArtist = document.getElementById('playnowARTIST');
+            // var playTrack = document.getElementById('playnowTRACK');
+            var fetchURL = addToPlaylist
+            // playTrack.src = //url of song
+            fetch(fetchURL)
+            .then(response => {
+                    if(response.ok){
+                        console.log('Heart Promise resolved and HTTP status is successful');
+                        return response.json()
+                    }else{
+                        if (response.status === 404) throw new Error('404, Not found');
+                        if (response.status === 500) throw new Error('500, internal server error');
+                        throw new Error(response.status);
+                    }
+            })
+            .then(song => {
+                console.log(song)
+                if(song.isAdded){
+                    console.log("Song Added")
+                    heart.classList.remove("bi-heart");
+                    heart.classList.add("bi-heart-fill");
+                }else{
+                    console.log("Song was already added")
+                    heart.classList.remove("bi-heart-fill");
+                    heart.classList.add("bi-heart");
+                }
+                // playImg.src = data.img
+                // playTitle.innerHTML = data.title
+                // playArtist.innerHTML = data.artist
+                // playTrack.src = data.track
+                // audio.load()
+            }).catch(error => {
+                    console.error("Fetch:",error);
+            })
+        }
+            
+        
+    </script>
+{% endblock body %}

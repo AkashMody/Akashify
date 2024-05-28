@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Membership
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid bg-dark">
+        <!-- <div class="position-relative m-4">
+            <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="height: 1px;">
+              <div class="progress-bar" style="width: 50%"></div>
+            </div>
+            <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill" style="width: 2rem; height:2rem;">1</button>
+            <button type="button" class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-primary rounded-pill" style="width: 2rem; height:2rem;">2</button>
+            <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill" style="width: 2rem; height:2rem;">3</button>
+        </div> -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card bg-dark bg-gradient text-warning m-4 child" style="width: 25rem;">
+                    <img src="{% static 'img/indi.jpg' %}" class="card-img-top" alt="..." >
+                    <div class="card-body">
+                        <h5 class="card-title">Premium Individual</h5>
+                        <p class="card-text">Rs. 100 monthly</p>
+                        <p class="card-text">What we Offer</p>
+                        <ul>
+                            <li>Unlimited Ad-Free Streaming</li>
+                            <li>Song Downloads</li>
+                            
+                        </ul>
+                        <br><br>
+                        <div>
+                            <a href="/makePayment/100"><button class="btn bg-success text-warning" type="button">Pay Rs.100/-</button></a>
+                        </div>
+                        <!-- <audio src="{{song.track.url}}" style = "width: 100%;" controls class = "text-warning"></audio> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-dark bg-gradient text-warning m-4 child" style="width: 25rem;">
+                    <img src="{% static 'img/family.jpg' %}" class="card-img-top" alt="..." >
+                    <div class="card-body">
+                        <h5 class="card-title">Premium Family of 4</h5>
+                        <p class="card-text">Rs. 200 monthly</p>
+                        <p class="card-text">What we Offer</p>
+                        <ul>
+                            <li>Unlimited Ad-Free Streaming</li>
+                            <li>Song Downloads</li>
+                            <li>Family Discount</li>
+                        </ul>
+                        <h6>Address Verification will be required!</h6>
+                        <br><br>
+                        <div>
+                            <a href="/makePayment/200"><button class="btn bg-success text-warning" type="button">Pay Rs.200/-</button></a>
+                        </div>
+                        <!-- <audio src="{{song.track.url}}" style = "width: 100%;" controls class = "text-warning"></audio> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-dark bg-gradient text-warning m-4 child" style="width: 25rem;">
+                    <img src="{% static 'img/stu.jpg' %}" class="card-img-top" alt="..." >
+                    <div class="card-body">
+                        <h5 class="card-title">Premium Student</h5>
+                        <p class="card-text">Rs. 50 monthly</p>
+                        <p class="card-text">What we Offer</p>
+                        <ul>
+                            <li>Unlimited Ad-Free Streaming</li>
+                            <li>Song Downloads</li>
+                            <li>Student Discount</li>
+                        </ul>
+                        <h6>University Verification will be required!</h6>
+                        <br><br>
+                        <div>
+                            <a href="/makePayment/50"><button class="btn bg-success text-warning" type="button">Pay Rs.50/-</button></a>
+                        </div>
+                        <!-- <audio src="{{song.track.url}}" style = "width: 100%;" controls class = "text-warning"></audio> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if "PREMIUM" in listener.member %}
+    <div class="row">
+        <div>
+            <a href="/makePayment/10"><button class="btn bg-danger bg-gradient text-warning" style = "position: absolute; bottom: 5px; right: 75px; margin:auto;" type="button">Cancel Membership?</button></a>
+        </div>
+    </div>
+    {% endif %}
+    
+{% endblock %}

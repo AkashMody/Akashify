@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Payment
+{% endblock title %}
+
+
+{% block body %}
+    
+    <div class="container-fluid bg-dark text-warning">
+        <h1> Your Membership details: </h1>
+    <div class="row">
+        <div class="col-md-8">
+            <h4 class = "bg-black bg-gradient text-white p-2">Listener Details</h4>
+            <p><b>Username:</b>{{listener.first_name}} {{listener.last_name}}</p>
+            <p><b>Mobile:</b>{{listener.phone}}</p>
+            <p><b>Email:</b>{{listener.email}}</p>
+            <p><b>Address:</b>{{listener.address}}</p>
+        </div>
+
+            <h4 class = "bg-darblack bg-gradient text-white p-2">Payment Details: {{data.receipt}}</h4>
+            <table border = "1">
+                <tr>
+                    <th>Pid</th>
+                    <th>Listener</th>
+                    <th>Membership</th>
+                    <th>Amount</th>
+                </tr>
+                
+
+                
+                <tr>
+                    <td>{{payment.pid}}</td>
+                    <td>{{payment.listener.username}}</td>
+                    <td>{{payment.membership}}</td>
+                    {% if payment.membership == "GUEST" %}
+                        <td> Nill /- </td>
+                    {% else %}
+                    <td>{{payment.amount}}</td>
+                    {% endif %}
+                </tr>
+            
+            </table><br><br>
+            {% if payment.membership == "GUEST" %}
+            <a href="/sendMail/{{listener.username}}" style="width:200px; margin:auto"><button class = "btn btn-primary">Proceed</button></a> 
+            {% else %}
+            <button id="rzp-button1" class = "btn btn-primary" style="width:200px; margin:auto">Proceed to Pay</button>
+            {% endif %}
+    </div>
+</div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "rzp_test_hdRXvVm9I26QLq", // Enter the Key ID generated from the Dashboard
+    "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "EComm", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "{{data.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function(response){
+        window.location.href = "http://localhost:8004/sendMail/{{listener.username}}"
+    },
+    "callback_url": "http://127.0.0.1:8004/", 
+    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+        "name": "{{listener.first_name}}", //your customer's name
+        "email": "{{listener.email}}",
+        "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+{% endblock body %}
+    
+    

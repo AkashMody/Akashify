@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{%load static %}
+
+{% block title %}
+    Playlists
+{% endblock title %}
+
+{% block body %}
+    <div class="container-fluid bg-dark text-warning">
+        <div class="row">
+            <div class="col-md-3 fixed">
+                <div class="row" id = "imagecontainer">
+                    <img id = "mylogo" src="{{listener.profile_pic.url}}" alt="">
+                </div>
+                <h3> Listener Details </h3>
+                <table border = 1>
+                    <tr><th>Name:</th> <td>{{listener.first_name}} {{listener.last_name}}</td></tr>
+                    <tr><th>Gender:</th> <td>{{listener.gender | title}}</td></tr>
+                    <tr><th>Akashified Identity:</th> <td>{{listener.username}}</td></tr>
+                    <tr><th>Member:</th> <td>{{listener.member}}</td></tr>    
+                </table>                
+            </div>
+
+            <div class="col-md-9">
+                <div class="row pt-2">
+                    <ul>
+                        <li><h3>Liked Songs</h3></li>
+                        <ul>
+                            {% for track in playlist %}
+                            <div class="card m-3 bg-dark bg-gradient" style="max-width: 400px; height:50px">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{{track.img.url}}" style = "height:50px; width: 50px;" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <button class="btn" id = "{{track.track_id}}" type="button" style="font-size: xx-large; position: absolute; bottom: 5px; left: 75px; margin:auto; height:50px; width: 50px; z-index: 1;" onclick = "playNOW(this.id)"><i class="bi bi-play-circle-fill text-warning"></i></button>
+    
+                                    <div class="col-md-8 text-warning">
+                                        <div class="card-body">
+                                            <a href="/lyrics/{{track.track_id}}" class = "text-warning songlink">
+                                            <p class="card-title playText">{{track.title}} ({{track.artist}})</p>
+                                            </a>
+                                        </div>   
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <footer class = "fixed-bottom bg-black bg-gradient">
+            <div class="row">
+                <div class="col-md-3 text-warning">
+                    <div class="card m-3 bg-dark bg-gradient" style="max-width: 540px;">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img id = "playnowIMG" src="{% static 'img/record.png' %}" class="img-fluid rounded-start" alt="...">
+                          </div>
+                          <div class="col-md-8 text-warning">
+                            <div class="card-body">
+                              <h5 id = "playnowTITLE" class="card-title playText">Title</h5>
+                              <p id = "playnowARTIST" class="card-text">Artist</p>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <audio controls autoplay id = "audio" class = "text-warning" style = "width: 900px; margin: 35px;">
+                        <source id = "playnowTRACK" src="" type="audio/mp3" />
+                    </audio>
+                </div>
+            </div>    
+        </footer>
+    </div>
+    <script src= "{% static 'js/play.js' %}"></script>
+    
+{% endblock body %}
+    

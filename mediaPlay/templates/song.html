@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Add your own
+{% endblock title %}
+    
+
+{% block body %}
+    <div class="container-fluid bg-dark text-warning">
+        {% if messages %}
+                      {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                      {% endfor %}
+        {% endif %}
+        <form action="" method = "post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+            <input class= "btn bg-success" type="submit" value ="Let them have it!!">
+
+        </form>
+    </div>
+{% endblock body %}
+    

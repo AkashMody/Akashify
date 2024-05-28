@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    {{object.title}}
+{% endblock title %}
+
+
+{% block body %}
+    <div class="container-fluid bg-dark text-warning">
+        <div class="row">
+            <div class="col-md-3 fixed">
+                <div class="row">
+                    <img src="{{object.img.url}}" alt="">
+                </div>
+                <div>
+                    <table>
+                        <tr>
+                            <th>Title:</th> 
+                            <td>{{object.title}}</td>
+                        </tr>
+                        <tr>
+                            <th>Artist:</th> 
+                            <td>{{object.artist}}</td>
+                        </tr>
+                        <tr>
+                            <th>Album:</th> 
+                            <td>{{object.album}}</td>
+                        </tr>
+                        <tr>
+                            <th>Genre:</th> 
+                            <td>{{object.genre}}</td>
+                        </tr>
+                        
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <p>{{object.lyrics}}</p>
+            </div>
+            <footer class = "sticky-bottom bg-black bg-gradient">
+                <div class="row">
+                    <div class="col-md-3 text-warning">
+                        <div class="card m-3 bg-dark bg-gradient" style="max-width: 540px;">
+                            <div class="row g-0">
+                              <div class="col-md-4">
+                                <img id = "playnowIMG" src="{{object.img.url}}" class="img-fluid rounded-start" alt="...">
+                              </div>
+                              <div class="col-md-8 text-warning">
+                                <div class="card-body">
+                                  <h5 id = "playnowTITLE" class="card-title playText">{{object.title}}</h5>
+                                  <p id = "playnowARTIST" class="card-text">{{object.artist}}</p>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <audio controls autoplay id = "audio" class = "text-warning" style = "width: 900px; margin: 35px;">
+                            <source id = "playnowTRACK" src="{{object.track.url}}" type="audio/mp3" />
+                        </audio>
+                    </div>
+                </div>    
+            </footer>
+            
+{% endblock body %}
+    
+    

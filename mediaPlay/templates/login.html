@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{%load static %}
+
+{% block title %}
+    Login
+{% endblock title %}
+
+
+{% block style %}
+        body,
+		html {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+            align-items: center;
+		}
+		.user_card {
+			width: 350px;
+			margin-top: auto;
+			margin-bottom: auto;
+			background: #74cfbf;
+			position: relative;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			padding: 10px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			border-radius: 5px;
+
+		}
+
+		.form_container {
+			margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+		}
+
+		#form-title{
+			color: #fff;
+		}
+        .user_card {
+    width: auto;
+    margin: auto; /* This centers the card horizontally */
+    margin-top: 20vh; /* Adjust this value to vertically position the card */
+    background: #74cfbf;}
+
+{% endblock style %}
+
+
+{% block body %}
+
+    <div class="container-fluid bg-dark h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card bg-warning">
+				<div class="d-flex justify-content-center">
+					<h3 id="form-title" class="text-black">LOGIN</h3>
+                    {% comment %} {% if messages %}
+                      {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                      {% endfor %}
+                    {% endif %} {% endcomment %}
+				</div>
+				<div class="d-flex justify-content-center form_container">
+                <form method="POST" action="">
+                    {%csrf_token%}
+                    <div class="mb-3">
+                        <label for="Input1" class="form-label"><b>Username:</b></label>
+                        <input type="text" class="form-control" name="uname" id="Input1" placeholder="Enter Username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Input2" class="form-label"><b>Password:</b></label>
+                        <input type="password" class="form-control" name="upass"  id="Input2" placeholder="Enter password">
+                    </div>
+                   <!--  {{form.as_p}} -->
+                    <input type="submit" value="Login" style="align-content:center; background-color: grey;"><br><br>
+                    Not a user? <a href="/register">Sign Up</a>
+                </form>
+                </div>
+            </div> 
+            
+        </div> 
+    </div>
+        <script>
+            
+        </script>
+        
+
+
+{% endblock body %}
+
